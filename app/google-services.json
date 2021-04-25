@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "229533177998",
+    "project_id": "saccovotingapp",
+    "storage_bucket": "saccovotingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:229533177998:android:0d8c1a5252a4a0040351df",
+        "android_client_info": {
+          "package_name": "com.example.votingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "229533177998-qhhjaetib4q8hhoqvg70m8p9u4hlg2vj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCANb_FloFrSKi5ExTk-imJONTEULBWGro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "229533177998-qhhjaetib4q8hhoqvg70m8p9u4hlg2vj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

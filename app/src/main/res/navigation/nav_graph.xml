@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/adminFragmentList">
+
+    <fragment
+        android:id="@+id/addContestants"
+        android:name="com.example.votingapp.AddContestants"
+        android:label="fragment_add_contestants"
+        tools:layout="@layout/fragment_add_contestants" >
+        <action
+            android:id="@+id/action_addContestants_to_adminFragmentList"
+            app:destination="@id/adminFragmentList" />
+    </fragment>
+    <fragment
+        android:id="@+id/contestantsListFragment"
+        android:name="com.example.votingapp.ContestantsListFragment"
+        android:label="fragment_contestants_list"
+        tools:layout="@layout/fragment_contestants_list" />
+    <fragment
+        android:id="@+id/viewpagerFragment"
+        android:name="com.example.votingapp.ViewpagerFragment"
+        android:label="fragment_viewpager"
+        tools:layout="@layout/fragment_viewpager" />
+    <fragment
+        android:id="@+id/adminFragmentList"
+        android:name="com.example.votingapp.AdminFragmentList"
+        android:label="AdminFragmentList" >
+        <action
+            android:id="@+id/action_adminFragmentList_to_addContestants"
+            app:destination="@id/addContestants" />
+    </fragment>
+</navigation>
