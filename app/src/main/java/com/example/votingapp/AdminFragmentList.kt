@@ -18,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.squareup.picasso.Picasso
 
 
 class AdminFragmentList : Fragment() {
@@ -58,6 +59,7 @@ class AdminFragmentList : Fragment() {
             override fun onBindViewHolder(holder: ContestantsViewHolder, position: Int, model: Contestants) {
                 holder.name.text = model.name
                 holder.post.text =model.post
+                Picasso.get().load(model.image).into(holder.profileImage)
              /*   holder.votebox.setOnClickListener(
 
                 )*/

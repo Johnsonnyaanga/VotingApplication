@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
+import com.squareup.picasso.Picasso
 
 
 class ContestantsListFragment : Fragment() {
@@ -28,7 +30,9 @@ class ContestantsListFragment : Fragment() {
     var checkedItemString:String? =null
     private var postsGroup: RadioGroup? = null
     private var radioPostButton: RadioButton? = null
+    lateinit var recyclerView: RecyclerView
     private val mReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("votingapp")
+    private lateinit var databaseReference:DatabaseReference
 
 
 
@@ -38,15 +42,20 @@ class ContestantsListFragment : Fragment() {
     ): View? {
 
       val view = inflater.inflate(R.layout.fragment_contestants_list, container, false)
-
         thisContext = requireContext()
-        var databaseReference = mReference.child("contestants")
+
+
+
+        databaseReference = mReference.child("contestants")
+        recyclerView = view.findViewById(R.id.contestants_recyclerview)
+        val query = databaseReference.orderByChild("post").equalTo("Secretary")
+        displayContestants(recyclerView,query)
+
 
         postsGroup=view.findViewById(R.id.post_type_radio_group)
 
+        databaseReference.keepSynced(true)
 
-
-        radioPostButton
         postsGroup?.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
             override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
                 // checkedId is the RadioButton selected
@@ -59,47 +68,6 @@ class ContestantsListFragment : Fragment() {
 
 
 
-        val recyclerView: RecyclerView
-        val options: FirebaseRecyclerOptions<Contestants>
-        val adapter: FirebaseRecyclerAdapter<Contestants, ContestantsViewHolder>
-        databaseReference.keepSynced(true)
-        recyclerView = view.findViewById(R.id.contestants_recyclerview)
-        recyclerView.layoutManager = LinearLayoutManager(thisContext)
-        recyclerView.setHasFixedSize(true)
-        var query = databaseReference.orderByChild("post").equalTo("Chairman")
-        options = FirebaseRecyclerOptions.Builder<Contestants>()
-                .setQuery(query, Contestants::class.java).build()
-        adapter = object : FirebaseRecyclerAdapter<Contestants, ContestantsViewHolder>(options) {
-            override fun onBindViewHolder(
-                holder: ContestantsViewHolder,
-                position: Int,
-                model: Contestants
-            ) {
-                holder.name.text = model.name
-                holder.post.text =model.post
-                holder.votebox.setOnClickListener(
-                    View.OnClickListener {
-                        //add one vote to the voted contestant
-                        var votedcount = model.totalCount.toInt() + 1
-                        getRef(position).child("totalCount").setValue(votedcount.toString())
-                        holder.votebox.setImageResource(R.drawable.vote_tick)
-
-
-
-                        toasMessage(votedcount.toString())
-                    }
-                )
-
-            }
-
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContestantsViewHolder {
-                val v = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.contest_view, parent, false)
-                return ContestantsViewHolder(v)
-            }
-        }
-        adapter.startListening()
-        recyclerView.adapter = adapter
 
 
 
@@ -122,8 +90,43 @@ class ContestantsListFragment : Fragment() {
 
     }
 
-    private fun displayContestants(){
+    private fun displayContestants(myrecycler:RecyclerView,myquery:Query){
+        val options: FirebaseRecyclerOptions<Contestants>
+        val adapter: FirebaseRecyclerAdapter<Contestants, ContestantsViewHolder>
+        myrecycler.layoutManager = LinearLayoutManager(requireContext())
+        myrecycler.setHasFixedSize(true)
+        options = FirebaseRecyclerOptions.Builder<Contestants>()
+            .setQuery(myquery, Contestants::class.java).build()
+        adapter = object : FirebaseRecyclerAdapter<Contestants, ContestantsViewHolder>(options) {
+            override fun onBindViewHolder(
+                holder: ContestantsViewHolder,
+                position: Int,
+                model: Contestants
+            ) {
+                holder.name.text = model.name
+                holder.post.text =model.post
+                Picasso.get().load(model.image).into(holder.profileImage)
+                holder.votebox.setOnClickListener(
+                    View.OnClickListener {
+                        //add one vote to the voted contestant
+                        var votedcount = model.totalCount.toInt() + 1
+                        getRef(position).child("totalCount").setValue(votedcount.toString())
+                        //holder.votebox.setImageResource(R.drawable.vote_tick)
 
+                        toasMessage(votedcount.toString())
+                    }
+                )
+
+            }
+
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContestantsViewHolder {
+                val v = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.contest_view, parent, false)
+                return ContestantsViewHolder(v)
+            }
+        }
+        adapter.startListening()
+        myrecycler.adapter = adapter
     }
 
 
