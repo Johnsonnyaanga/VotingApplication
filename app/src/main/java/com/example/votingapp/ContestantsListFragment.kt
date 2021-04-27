@@ -1,42 +1,61 @@
 package com.example.votingapp
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.votingapp.models.Contestants
-import com.example.votingapp.models.HasVoted
 import com.example.votingapp.viewholders.ContestantsViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import kotlin.math.absoluteValue
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 
 
 class ContestantsListFragment : Fragment() {
     var thisContext: Context? = null
     val currentUsr = FirebaseAuth.getInstance().currentUser.uid
     var id: String? = null
-    var addContestant:FloatingActionButton? = null
+    var checkedItemString:String? =null
+    private var postsGroup: RadioGroup? = null
+    private var radioPostButton: RadioButton? = null
     private val mReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("votingapp")
 
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
       val view = inflater.inflate(R.layout.fragment_contestants_list, container, false)
 
         thisContext = requireContext()
-        val databaseReference = mReference.child("contestants")
+        var databaseReference = mReference.child("contestants")
+
+        postsGroup=view.findViewById(R.id.post_type_radio_group)
+
+
+
+        radioPostButton
+        postsGroup?.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
+            override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+                // checkedId is the RadioButton selected
+                val selectedId:Int? = checkedId
+                radioPostButton = view.findViewById(selectedId!!)
+                Toast.makeText(requireContext(),radioPostButton?.text.toString(),Toast.LENGTH_SHORT).show()
+            }
+        })
+
 
 
 
@@ -44,24 +63,31 @@ class ContestantsListFragment : Fragment() {
         val options: FirebaseRecyclerOptions<Contestants>
         val adapter: FirebaseRecyclerAdapter<Contestants, ContestantsViewHolder>
         databaseReference.keepSynced(true)
-        val user = FirebaseAuth.getInstance().currentUser
-        databaseReference.keepSynced(true)
         recyclerView = view.findViewById(R.id.contestants_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(thisContext)
         recyclerView.setHasFixedSize(true)
+        var query = databaseReference.orderByChild("post").equalTo("Chairman")
         options = FirebaseRecyclerOptions.Builder<Contestants>()
-                .setQuery(databaseReference, Contestants::class.java).build()
+                .setQuery(query, Contestants::class.java).build()
         adapter = object : FirebaseRecyclerAdapter<Contestants, ContestantsViewHolder>(options) {
-            override fun onBindViewHolder(holder: ContestantsViewHolder, position: Int, model: Contestants) {
+            override fun onBindViewHolder(
+                holder: ContestantsViewHolder,
+                position: Int,
+                model: Contestants
+            ) {
                 holder.name.text = model.name
                 holder.post.text =model.post
                 holder.votebox.setOnClickListener(
-                        View.OnClickListener {
-                            //add one vote to the voted contestant
-                            var votedcount = model.totalCount.toInt()+1
-                            getRef(position).child("totalCount").setValue(votedcount.toString())
-                            toasMessage(votedcount.toString())
-                        }
+                    View.OnClickListener {
+                        //add one vote to the voted contestant
+                        var votedcount = model.totalCount.toInt() + 1
+                        getRef(position).child("totalCount").setValue(votedcount.toString())
+                        holder.votebox.setImageResource(R.drawable.vote_tick)
+
+
+
+                        toasMessage(votedcount.toString())
+                    }
                 )
 
             }
@@ -95,6 +121,12 @@ class ContestantsListFragment : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 
     }
+
+    private fun displayContestants(){
+
+    }
+
+
 /*
     private fun addVote(modela: Contestants?) {
 

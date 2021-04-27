@@ -5,24 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ContestantsListFragment">
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/post_type"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+        <RadioGroup
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/post_type_radio_group"
+            >
+
+            <RadioButton
+                android:layout_margin="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chairman"
+                android:id="@+id/chairman"
+                android:checked="false"
+                 />
+
+            <RadioButton
+                android:layout_margin="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Secretary"
+                android:id="@+id/secretary"
+                android:checked="false"
+                />
+            <RadioButton
+                android:layout_margin="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Treasurer"
+                android:id="@+id/treasurer"
+                android:checked="false"
+                />
+        </RadioGroup>
+
+
+    </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contestants_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/post_type"
+         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_margin="16dp"
-        android:id="@+id/add_contestatnt_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

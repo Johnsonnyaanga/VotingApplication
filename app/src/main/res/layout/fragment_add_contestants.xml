@@ -9,25 +9,7 @@
 
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/name_input_layout"
-        android:layout_margin="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="209dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/contestant_post_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Post"
-            tools:layout_editor_absoluteX="2dp"
-            tools:layout_editor_absoluteY="41dp"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/post_input_layout"
@@ -37,9 +19,9 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name_input_layout"
+        app:layout_constraintTop_toBottomOf="@id/spinner"
         tools:layout_editor_absoluteY="209dp">
-/>
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/contestant_name_input"
@@ -61,6 +43,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/post_input_layout" />
+
+    <Spinner
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/contestant_image"
+        app:layout_constraintBottom_toTopOf="@+id/name_input_layout"
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="149dp"
+        tools:layout_editor_absoluteY="80dp" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_margin="16dp"
+        android:id="@+id/contestant_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/johnie"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
