@@ -1,6 +1,7 @@
 package com.example.votingapp
 
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -49,6 +50,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun login(mail:String , password:String) {
 
+        progressBar.visibility = View.VISIBLE
+
         mAuth?.signInWithEmailAndPassword(mail,password)
                 ?.addOnCompleteListener(this, OnCompleteListener {
                     task ->
@@ -63,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                     task->
 
                  ifAdmin(FirebaseAuth.getInstance().currentUser.uid)
+                 progressBar.visibility=View.GONE
 
 
 

@@ -1,14 +1,12 @@
 package com.example.votingapp
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +14,7 @@ import com.example.votingapp.models.Contestants
 import com.example.votingapp.viewholders.ContestantsViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -26,6 +25,7 @@ import com.squareup.picasso.Picasso
 class ContestantsListFragment : Fragment() {
     var thisContext: Context? = null
     val currentUsr = FirebaseAuth.getInstance().currentUser.uid
+    private lateinit var alertDialog: AlertDialog
     var id: String? = null
     var checkedItemString:String? =null
     private var postsGroup: RadioGroup? = null
@@ -47,8 +47,10 @@ class ContestantsListFragment : Fragment() {
 
 
         databaseReference = mReference.child("contestants")
+        databaseReference.keepSynced(true)
         recyclerView = view.findViewById(R.id.contestants_recyclerview)
         val query = databaseReference.orderByChild("post").equalTo("Secretary")
+        query.keepSynced(true)
         displayContestants(recyclerView,query)
 
 
@@ -109,15 +111,54 @@ class ContestantsListFragment : Fragment() {
                 holder.votebox.setOnClickListener(
                     View.OnClickListener {
                         //add one vote to the voted contestant
-                        var votedcount = model.totalCount.toInt() + 1
-                        getRef(position).child("totalCount").setValue(votedcount.toString())
-                        //holder.votebox.setImageResource(R.drawable.vote_tick)
+                        getConfirmVoteDialog(holder.itemView,model,position)
 
-                        toasMessage(votedcount.toString())
+
                     }
                 )
 
+
             }
+
+            fun getConfirmVoteDialog(view:View,modela: Contestants,positiona:Int){
+
+                val viewGroup: ViewGroup? = view.findViewById(android.R.id.content)
+
+
+                val dialogView: View =
+                    LayoutInflater.from(requireContext())
+                        .inflate(R.layout.confirm_vote_dialog, viewGroup, false)
+
+                val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                val cancel = dialogView.findViewById<Button>(R.id.button_cancel)
+                val add = dialogView.findViewById<Button>(R.id.button_save)
+
+                cancel.setOnClickListener(View.OnClickListener {
+                        view ->
+                    alertDialog.dismiss()
+                })
+
+
+                add.setOnClickListener(View.OnClickListener { view ->
+                    //call add vote function
+                    var votedcount = modela.totalCount.toInt() + 1
+                    getRef(positiona).child("totalCount").setValue(votedcount.toString())
+                    //holder.votebox.setImageResource(R.drawable.vote_tick)
+                    toasMessage(votedcount.toString())
+                    alertDialog.dismiss()
+
+                })
+
+
+                builder.setView(dialogView)
+                alertDialog  = builder.create()
+                alertDialog.show()
+
+
+            }
+
+
+
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContestantsViewHolder {
                 val v = LayoutInflater.from(parent.context)
@@ -127,6 +168,14 @@ class ContestantsListFragment : Fragment() {
         }
         adapter.startListening()
         myrecycler.adapter = adapter
+    }
+
+
+
+    private fun addVote(modela:Contestants):Int{
+        var votedcount = modela.totalCount.toInt() + 1
+        toasMessage(votedcount.toString())
+        return votedcount
     }
 
 

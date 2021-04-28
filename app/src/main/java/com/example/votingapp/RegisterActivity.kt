@@ -46,11 +46,13 @@ loginTextLink.setOnClickListener(View.OnClickListener {
     }
 
     private fun register(mail:String , password:String) {
+        progressBar.visibility = View.VISIBLE
 
         mAuth?.createUserWithEmailAndPassword(mail,password)
                 ?.addOnCompleteListener(this, OnCompleteListener {
                     task ->
                     if (task.isSuccessful){
+                        progressBar.visibility = View.GONE
                         startActivity(Intent(this, MainActivity::class.java))
                     }else
                     {
