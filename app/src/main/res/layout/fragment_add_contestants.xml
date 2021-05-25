@@ -5,6 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddContestants">
+<LinearLayout
+    android:id="@+id/textupload"
+    app:layout_constraintTop_toBottomOf="@+id/contestant_image"
+    android:layout_width="match_parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="16dp"
+    >
+    <TextView
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload image from file"/>
+    <TextView
+        android:id="@+id/upload_txt"
+        android:textColor="#4C64E8"
+        android:layout_weight="5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose file"/>
+</LinearLayout>
 
 
 
@@ -46,7 +68,7 @@
 
     <Spinner
         android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/contestant_image"
+        app:layout_constraintTop_toBottomOf="@+id/textupload"
         app:layout_constraintBottom_toTopOf="@+id/name_input_layout"
         android:id="@+id/spinner"
         android:layout_width="match_parent"
@@ -61,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@drawable/johnie"
+        android:src="@drawable/ic_person"
         />
 
 

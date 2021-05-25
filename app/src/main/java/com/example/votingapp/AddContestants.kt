@@ -36,16 +36,15 @@ class AddContestants : Fragment(),AdapterView.OnItemSelectedListener {
 private lateinit var btnAddContestants: Button
 private lateinit var contestantName:TextInputEditText
 private lateinit var Spinner:Spinner
+private lateinit var uploadImageText:TextView
 private lateinit var SpinnerItemSelectedPost:String
-    val currentUsr = FirebaseAuth.getInstance().currentUser.uid
-
+val currentUsr = FirebaseAuth.getInstance().currentUser.uid
     private var mImageUri: Uri? = null
     private var mImageView: CircleImageView? = null
     var mStorageRef: StorageReference? = null
-
-
     //private lateinit var post:TextInputEditText
-private val mReference:DatabaseReference = FirebaseDatabase.getInstance().reference.child("votingapp")
+private val mReference:DatabaseReference = FirebaseDatabase
+        .getInstance().reference.child("votingapp")
     val data = mutableListOf<String>("Chairman","Secretary","Treasurer")
 
 
@@ -63,9 +62,13 @@ private val mReference:DatabaseReference = FirebaseDatabase.getInstance().refere
         mStorageRef = FirebaseStorage.getInstance().getReference("votingapp")
         contestantName = view.findViewById(R.id.contestant_name_input)
         mImageView = view.findViewById(R.id.contestant_image)
-        mImageView?.setOnClickListener(View.OnClickListener { selectImage() })
+        /*mImageView?.setOnClickListener(View.OnClickListener { selectImage() })*/
         //post = view.findViewById(R.id.contestant_post_input)
         btnAddContestants = view.findViewById(R.id.add_contestatnts)
+        uploadImageText = view.findViewById(R.id.upload_txt)
+        uploadImageText.setOnClickListener(View.OnClickListener {
+            selectImage()
+        })
 
         btnAddContestants.setOnClickListener(View.OnClickListener {
             if (mImageUri!=null) {

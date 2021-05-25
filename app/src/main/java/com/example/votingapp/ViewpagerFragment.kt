@@ -1,6 +1,7 @@
 package com.example.votingapp
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,9 +13,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.votingapp.viewpageradapters.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.FirebaseAuth
 
 class ViewpagerFragment : Fragment() {
     var viewPager: ViewPager? = null
@@ -59,7 +62,9 @@ class ViewpagerFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
+        if (item.itemId == R.id.logout) {
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(this.activity,MainActivity::class.java))
 
         } else {
         }

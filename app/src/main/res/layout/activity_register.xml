@@ -32,7 +32,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sacco VotingApp"
+            android:text="Dekut VotingApp"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold"
