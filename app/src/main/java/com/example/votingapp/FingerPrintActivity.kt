@@ -43,18 +43,6 @@ class FingerPrintActivity : AppCompatActivity() {
         mFingerprintImage = findViewById(R.id.fingerprintImage) as ImageView
         mParaLabel = findViewById(R.id.paraLabel) as TextView
 
-        // Check 1: Android version should be greater or equal to Marshmallow
-        // Check 2: Device has Fingerprint Scanner
-        // Check 3: Have permission to use fingerprint scanner in the app
-        // Check 4: Lock screen is secured with atleast 1 type of lock
-        // Check 5: Atleast 1 Fingerprint is registered
-
-
-        // Check 1: Android version should be greater or equal to Marshmallow
-        // Check 2: Device has Fingerprint Scanner
-        // Check 3: Have permission to use fingerprint scanner in the app
-        // Check 4: Lock screen is secured with atleast 1 type of lock
-        // Check 5: Atleast 1 Fingerprint is registered
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintManager = getSystemService(FINGERPRINT_SERVICE) as FingerprintManager?
             keyguardManager = getSystemService(KEYGUARD_SERVICE) as KeyguardManager?
@@ -75,7 +63,7 @@ class FingerPrintActivity : AppCompatActivity() {
                 if (cipherInit()) {
                     val cryptoObject = FingerprintManager.CryptoObject(cipher)
                     val fingerprintHandler = FingerprintHandler(this)
-                    fingerprintHandler.startAuth(fingerprintManager!!, cryptoObject)
+                    fingerprintHandler.startAuth(fingerprintManager, cryptoObject)
                 }
             }
         }
