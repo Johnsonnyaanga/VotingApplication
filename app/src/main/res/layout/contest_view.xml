@@ -69,7 +69,7 @@
                         android:layout_weight="5">
                         <ImageView
                             android:scaleType="center"
-                            android:src="@drawable/vote_tick"
+                            android:src="@drawable/ic_baseline_fingerprint_24"
                             android:id="@+id/votebox"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"

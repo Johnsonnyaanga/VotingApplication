@@ -26,6 +26,8 @@ import com.squareup.picasso.Picasso
 class ResultFragment : Fragment() {
     var thisContext: Context? = null
     var id: String? = null
+    private var postsGroup: RadioGroup? = null
+    private var radioPostButton: RadioButton? = null
     private lateinit var databaseReference: DatabaseReference
 
 
@@ -36,13 +38,28 @@ class ResultFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_result, container, false)
-
         thisContext = this.context
         lateinit var recyclerView: RecyclerView
         recyclerView = view.findViewById(R.id.result_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(thisContext)
         recyclerView.setHasFixedSize(true)
-        displayContestants(recyclerView)
+
+
+
+        postsGroup=view.findViewById(R.id.post_type_radio_group)
+        postsGroup?.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
+            override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+                // checkedId is the RadioButton selected
+                val selectedId: Int? = checkedId
+                radioPostButton = view.findViewById(selectedId!!)
+                var fil = radioPostButton?.text.toString()
+                displayContestants(recyclerView, "post", fil)
+
+            }
+        })
+
+
+
 
 
 
@@ -54,12 +71,12 @@ class ResultFragment : Fragment() {
 
     }
 
-    private fun displayContestants(myrecycler: RecyclerView){
+    private fun displayContestants(myrecycler: RecyclerView, filter: String, filterkey: String){
         val options: FirebaseRecyclerOptions<Contestants>
         val adapter: FirebaseRecyclerAdapter<Contestants, ResultViewHolder>
         var mReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("votingapp")
         databaseReference = mReference.child("contestants")
-        var query = databaseReference
+        var query = databaseReference.orderByChild(filter).equalTo(filterkey)
         databaseReference.keepSynced(true)
 
         options = FirebaseRecyclerOptions.Builder<Contestants>()

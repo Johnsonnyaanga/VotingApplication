@@ -12,6 +12,8 @@
         android:theme="@style/Theme.VotingApp">
         <activity android:name=".VoterDashboard"></activity>
         <activity android:name=".AdminDashboard" />
+        <activity android:name=".ConfrimvoteFingerPrint"/>
+
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity">
 

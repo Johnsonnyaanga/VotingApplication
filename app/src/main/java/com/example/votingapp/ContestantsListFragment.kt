@@ -2,7 +2,9 @@ package com.example.votingapp
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,9 +21,7 @@ import com.example.votingapp.viewholders.ContestantsViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
+import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import java.util.zip.Inflater
 
@@ -33,6 +34,8 @@ class ContestantsListFragment : Fragment() {
     private var radioPostButton: RadioButton? = null
     lateinit var recyclerView: RecyclerView
     private lateinit var databaseReference:DatabaseReference
+    var mReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("votingapp")
+    var hasVoted = mReference.child("voted")
 
 
 
@@ -139,12 +142,36 @@ class ContestantsListFragment : Fragment() {
 
 
                 add.setOnClickListener(View.OnClickListener { view ->
-                    //call add vote function
-                    var votedcount = modela.totalCount.toInt() + 1
-                    getRef(positiona).child("totalCount").setValue(votedcount.toString())
-                    //holder.votebox.setImageResource(R.drawable.vote_tick)
-                    toasMessage(votedcount.toString())
-                    alertDialog.dismiss()
+                    var checkHasvoted = hasVoted.child(FirebaseAuth.getInstance().currentUser.uid)
+                    val eventListener: ValueEventListener = object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                toasMessage("You have voted already")
+                            }else{
+                                //take to confirmVote
+                                val intent = Intent(requireContext(),ConfrimvoteFingerPrint::class.java)
+                                ContextCompat.startActivity(requireContext(), intent, null)
+
+
+
+                                //call add vote function
+                                var votedcount = modela.totalCount.toInt() + 1
+                                getRef(positiona).child("totalCount").setValue(votedcount.toString())
+                                hasVoted.child(FirebaseAuth.getInstance().currentUser.uid).setValue(FirebaseAuth.getInstance().currentUser.uid)
+
+                                //holder.votebox.setImageResource(R.drawable.vote_tick)
+                                toasMessage(votedcount.toString())
+                                alertDialog.dismiss()
+
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            Log.d("errors", databaseError.message)
+                        }
+                    }
+                    checkHasvoted.addListenerForSingleValueEvent(eventListener)
+
 
                 })
 
