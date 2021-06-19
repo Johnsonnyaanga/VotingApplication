@@ -5,6 +5,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ResultFragment">
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/post_type"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:orientation="horizontal">
+        <RadioGroup
+            android:visibility="visible"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/post_type_radio_group"
+            >
+
+            <RadioButton
+                android:layout_margin="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chairman"
+                android:id="@+id/chairman"
+                android:checked="false"
+                />
+
+            <RadioButton
+                android:layout_margin="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Secretary"
+                android:id="@+id/secretary"
+                android:checked="false"
+                />
+            <RadioButton
+                android:layout_margin="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Treasurer"
+                android:id="@+id/treasurer"
+                android:checked="false"
+                />
+        </RadioGroup>
+
+
+    </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView

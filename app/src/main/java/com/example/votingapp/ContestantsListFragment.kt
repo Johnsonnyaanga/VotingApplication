@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -147,6 +148,11 @@ class ContestantsListFragment : Fragment() {
                             if (dataSnapshot.exists()) {
                                 toasMessage("You have voted already")
                             }else{
+                                //take to confirmVote
+                                val intent = Intent(requireContext(),ConfrimvoteFingerPrint::class.java)
+                                ContextCompat.startActivity(requireContext(), intent, null)
+
+
 
                                 //call add vote function
                                 var votedcount = modela.totalCount.toInt() + 1
