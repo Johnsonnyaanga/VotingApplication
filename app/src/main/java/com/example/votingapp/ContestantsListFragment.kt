@@ -142,7 +142,7 @@ class ContestantsListFragment : Fragment() {
 
 
                 add.setOnClickListener(View.OnClickListener { view ->
-                    var checkHasvoted = hasVoted.child(FirebaseAuth.getInstance().currentUser.uid)
+                    var checkHasvoted = hasVoted.child(modela.post.toString()).child(FirebaseAuth.getInstance().currentUser.uid)
                     val eventListener: ValueEventListener = object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             if (dataSnapshot.exists()) {
@@ -157,7 +157,7 @@ class ContestantsListFragment : Fragment() {
                                 //call add vote function
                                 var votedcount = modela.totalCount.toInt() + 1
                                 getRef(positiona).child("totalCount").setValue(votedcount.toString())
-                                hasVoted.child(FirebaseAuth.getInstance().currentUser.uid).setValue(FirebaseAuth.getInstance().currentUser.uid)
+                                hasVoted.child(modela.post.toString()).child(FirebaseAuth.getInstance().currentUser.uid).setValue(FirebaseAuth.getInstance().currentUser.uid)
 
                                 //holder.votebox.setImageResource(R.drawable.vote_tick)
                                 toasMessage(votedcount.toString())

@@ -32,4 +32,9 @@
             android:id="@+id/action_adminFragmentList_to_addContestants"
             app:destination="@id/addContestants" />
     </fragment>
+    <fragment
+        android:id="@+id/contListFragment"
+        android:name="com.example.votingapp.ContListFragment"
+        android:label="fragment_cont_list"
+        tools:layout="@layout/fragment_cont_list" />
 </navigation>
