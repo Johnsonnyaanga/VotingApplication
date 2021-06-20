@@ -15,13 +15,7 @@ class ContListFragment : Fragment() {
     lateinit var treasurer:ExtendedFloatingActionButton
     lateinit var navController: NavController
 
-    companion object {
-        const val SENDING_NAME_ADDRESS = "mqttAndroidClientAddress"
-        const val SENDING_NAME_ID = "mqttAndroidClientId"
 
-        // Use this function to create instance of your fragment
-
-    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -33,13 +27,10 @@ class ContListFragment : Fragment() {
         treasurer = view.findViewById(R.id.treasurer_id)
 
         chairman.setOnClickListener(View.OnClickListener {
-            findNavController().navigate(R.id.action_contListFragment_to_viewpagerFragment)
         })
         secretary.setOnClickListener(View.OnClickListener {
-            findNavController().navigate(R.id.action_contListFragment_to_viewpagerFragment)
         })
         treasurer.setOnClickListener(View.OnClickListener {
-            findNavController().navigate(R.id.action_contListFragment_to_viewpagerFragment)
         })
 
 
