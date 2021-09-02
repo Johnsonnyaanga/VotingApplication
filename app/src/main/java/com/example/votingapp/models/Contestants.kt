@@ -5,8 +5,9 @@ package com.example.votingapp.models
     var post:String? = null
     var image:String? = null
     var userId:String? = null
-    lateinit var totalCount:String
-     constructor(name:String?,post:String?,image:String?, userId:String?, totalCount:String){
+    var totalCount:Int? = null
+
+     constructor(name:String?,post:String?,image:String?, userId:String?, totalCount:Int?){
          this.name = name
          this.post = post
          this.image = image
