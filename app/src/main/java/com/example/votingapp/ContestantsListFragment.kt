@@ -150,7 +150,7 @@ class ContestantsListFragment : Fragment() {
                             }else{
                                 //take to confirmVote
                                 val intent = Intent(requireContext(),ConfrimvoteFingerPrint::class.java)
-                                ContextCompat.startActivity(requireContext(), intent, null)
+                                //ContextCompat.startActivity(requireContext(), intent, null)
 
 
 
@@ -192,6 +192,7 @@ class ContestantsListFragment : Fragment() {
                 return ContestantsViewHolder(v)
             }
         }
+
         adapter.startListening()
         myrecycler.adapter = adapter
         adapter.notifyDataSetChanged()

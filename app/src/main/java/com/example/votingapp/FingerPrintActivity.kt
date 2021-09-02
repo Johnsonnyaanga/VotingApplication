@@ -39,9 +39,9 @@ class FingerPrintActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fingerprint)
 
-        mHeadingLabel = findViewById(R.id.headingLabel) as TextView
-        mFingerprintImage = findViewById(R.id.fingerprintImage) as ImageView
-        mParaLabel = findViewById(R.id.paraLabel) as TextView
+        mHeadingLabel = findViewById(R.id.headingLabel)
+        mFingerprintImage = findViewById(R.id.fingerprintImage)
+        mParaLabel = findViewById(R.id.paraLabel)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintManager = getSystemService(FINGERPRINT_SERVICE) as FingerprintManager?
@@ -52,13 +52,13 @@ class FingerPrintActivity : AppCompatActivity() {
             }
 
             else if (ContextCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) !== PackageManager.PERMISSION_GRANTED) {
-                mParaLabel.setText("Permission not granted to use Fingerprint Scanner")
+                mParaLabel.text = "Permission not granted to use Fingerprint Scanner"
             } else if (!keyguardManager!!.isKeyguardSecure()) {
-                mParaLabel.setText("Add Lock to your Phone in Settings")
+                mParaLabel.text = "Add Lock to your Phone in Settings"
             } else if (!fingerprintManager!!.hasEnrolledFingerprints()) {
-                mParaLabel.setText("You should add atleast 1 Fingerprint to use this Feature")
+                mParaLabel.text = "You should add atleast 1 Fingerprint to use this Feature"
             } else {
-                mParaLabel.setText("Place your Finger on Scanner to Access the App.")
+                mParaLabel.text = "Place your Finger on Scanner to Access the App."
                 generateKey()
                 if (cipherInit()) {
                     val cryptoObject = FingerprintManager.CryptoObject(cipher)

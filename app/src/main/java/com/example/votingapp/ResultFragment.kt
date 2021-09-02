@@ -2,7 +2,9 @@ package com.example.votingapp
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,17 +20,22 @@ import com.example.votingapp.viewholders.ContestantsViewHolder
 import com.example.votingapp.viewholders.ResultViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 
 
 class ResultFragment : Fragment() {
     var thisContext: Context? = null
+    private lateinit var alertDialog: AlertDialog
     var id: String? = null
     private var postsGroup: RadioGroup? = null
     private var radioPostButton: RadioButton? = null
-    private lateinit var databaseReference: DatabaseReference
+    lateinit var recyclerView: RecyclerView
+    private lateinit var databaseReference:DatabaseReference
+    var mReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("votingapp")
+    var hasVoted = mReference.child("voted")
+
 
 
 
@@ -36,14 +43,15 @@ class ResultFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_result, container, false)
         thisContext = this.context
-        lateinit var recyclerView: RecyclerView
         recyclerView = view.findViewById(R.id.result_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(thisContext)
         recyclerView.setHasFixedSize(true)
-
+        /*val posta ="post"
+        val chairman = "Secretary"
+        displayContestants(recyclerView,posta,chairman)*/
 
 
         postsGroup=view.findViewById(R.id.post_type_radio_group)
@@ -64,7 +72,19 @@ class ResultFragment : Fragment() {
 
 
 
+
+
+
+
+
+
+
+
+
+
         return view
+
+
     }
     private fun toasMessage(message: String){
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
@@ -89,10 +109,17 @@ class ResultFragment : Fragment() {
             ) {
                 holder.name.text = model.name
                 holder.post.text =model.post
-                Picasso.get().load(model.image).into(holder.profileImage)
                 holder.numberOfVotes.text = model.totalCount
+                Picasso.get().load(model.image).into(holder.profileImage)
+
+
+
 
             }
+
+
+
+
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
                 val v = LayoutInflater.from(parent.context)
@@ -100,6 +127,7 @@ class ResultFragment : Fragment() {
                 return ResultViewHolder(v)
             }
         }
+
         adapter.startListening()
         myrecycler.adapter = adapter
         adapter.notifyDataSetChanged()
