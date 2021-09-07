@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.votingapp.models.Contestants
+import com.example.votingapp.viewholders.ContestantsAdminViewHolder
 import com.example.votingapp.viewholders.ContestantsViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -46,7 +47,7 @@ class AdminFragmentList : Fragment() {
 
         val recyclerView: RecyclerView
         val options: FirebaseRecyclerOptions<Contestants>
-        val adapter: FirebaseRecyclerAdapter<Contestants, ContestantsViewHolder>
+        val adapter: FirebaseRecyclerAdapter<Contestants, ContestantsAdminViewHolder>
         databaseReference.keepSynced(true)
         val user = FirebaseAuth.getInstance().currentUser
         databaseReference.keepSynced(true)
@@ -55,21 +56,21 @@ class AdminFragmentList : Fragment() {
         recyclerView.setHasFixedSize(true)
         options = FirebaseRecyclerOptions.Builder<Contestants>()
                 .setQuery(databaseReference, Contestants::class.java).build()
-        adapter = object : FirebaseRecyclerAdapter<Contestants, ContestantsViewHolder>(options) {
-            override fun onBindViewHolder(holder: ContestantsViewHolder, position: Int, model: Contestants) {
+        adapter = object : FirebaseRecyclerAdapter<Contestants, ContestantsAdminViewHolder>(options) {
+            override fun onBindViewHolder(holder: ContestantsAdminViewHolder, position: Int, model: Contestants) {
                 holder.name.text = model.name
                 holder.post.text =model.post
                 Picasso.get().load(model.image).into(holder.profileImage)
-             /*   holder.votebox.setOnClickListener(
-
-                )*/
+               holder.deleteContestant.setOnClickListener{
+                   getRef(position).removeValue()
+               }
 
             }
 
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContestantsViewHolder {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContestantsAdminViewHolder {
                 val v = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.contest_view, parent, false)
-                return ContestantsViewHolder(v)
+                        .inflate(R.layout.contestants_view, parent, false)
+                return ContestantsAdminViewHolder(v)
             }
         }
         adapter.startListening()
