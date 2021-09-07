@@ -52,10 +52,34 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Winner is:"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/winner"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#0CE815"
+            android:text=""
+            android:textSize="20sp"
+            />
 
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="10dp"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:id="@+id/result_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -122,7 +122,7 @@ private val mReference:DatabaseReference = FirebaseDatabase
 
     private fun addContestant(name:String?,post:String?,imageurl:String?,usrID:String?){
 
-        val contestant = Contestants(name,post,imageurl,usrID,0.toString())
+        val contestant = Contestants(name,post,imageurl,usrID,0)
         val contest = mReference.child("contestants")
         contest.child(contest.push().key!!).setValue(contestant)
             .addOnSuccessListener {

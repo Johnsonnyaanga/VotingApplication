@@ -155,8 +155,8 @@ class ContestantsListFragment : Fragment() {
 
 
                                 //call add vote function
-                                var votedcount = modela.totalCount.toInt() + 1
-                                getRef(positiona).child("totalCount").setValue(votedcount.toString())
+                                var votedcount = modela.totalCount?.plus(1)
+                                getRef(positiona).child("totalCount").setValue(votedcount)
                                 hasVoted.child(modela.post.toString()).child(FirebaseAuth.getInstance().currentUser.uid).setValue(FirebaseAuth.getInstance().currentUser.uid)
 
                                 //holder.votebox.setImageResource(R.drawable.vote_tick)
@@ -192,20 +192,11 @@ class ContestantsListFragment : Fragment() {
                 return ContestantsViewHolder(v)
             }
         }
+
         adapter.startListening()
         myrecycler.adapter = adapter
         adapter.notifyDataSetChanged()
     }
-
-
-
-    private fun addVote(modela: Contestants):Int{
-        var votedcount = modela.totalCount.toInt() + 1
-        toasMessage(votedcount.toString())
-        return votedcount
-    }
-
-
 
 
 /*

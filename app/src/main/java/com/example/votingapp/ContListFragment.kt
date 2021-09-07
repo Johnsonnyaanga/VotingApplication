@@ -26,12 +26,12 @@ class ContListFragment : Fragment() {
         secretary = view.findViewById(R.id.secretary_id)
         treasurer = view.findViewById(R.id.treasurer_id)
 
-        chairman.setOnClickListener(View.OnClickListener {
-        })
-        secretary.setOnClickListener(View.OnClickListener {
-        })
-        treasurer.setOnClickListener(View.OnClickListener {
-        })
+        chairman.setOnClickListener {
+        }
+        secretary.setOnClickListener {
+        }
+        treasurer.setOnClickListener {
+        }
 
 
 
